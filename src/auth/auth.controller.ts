@@ -8,8 +8,9 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto, signInSchema } from './dto/sign-in.dto';
-import { SignInValidation } from './pipes/validation.pipe';
-import { SignUpDto } from './dto/sign-up-dto';
+import { SignInValidation } from './validation/sign-in.validation';
+import { SignUpDto, signUpSchema } from './dto/sign-up-dto';
+import { SignUpValidation } from './validation/sign-up.validation';
 
 @Controller('auth')
 export class AuthController {
@@ -27,7 +28,7 @@ export class AuthController {
   }
   @HttpCode(HttpStatus.OK)
   @Post('signup')
-  @UsePipes(new SignInValidation(signInSchema))
+  @UsePipes(new SignUpValidation(signUpSchema))
   signUp(@Body() signUpDto: SignUpDto) {
     return this.authService.singUp(
       signUpDto.email,
